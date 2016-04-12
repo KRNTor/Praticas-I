@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author Felipe
  */
 public class AlternativaDao implements InterfaceAlternativa {
-
+    
     @Override
     public long salvarAlternativa(Alternativa a) throws Exception {
         long resultado = -1;
