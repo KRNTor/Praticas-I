@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Felipe
+ * @author Sidney
  */
 public interface PerguntaInterface {
 
@@ -19,6 +19,8 @@ public interface PerguntaInterface {
     public boolean verificarPergunta(String questao) throws Exception;
 
     public Pergunta buscarPergunta(String nome) throws Exception;
+
+    public Pergunta buscarPergunta(long id) throws Exception;
 
     public List<Pergunta> listarPergunta() throws Exception;
 

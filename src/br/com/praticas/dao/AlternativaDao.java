@@ -8,10 +8,13 @@ package br.com.praticas.dao;
 import br.com.praticas.factory.Conexao;
 import br.com.praticas.interfaces.InterfaceAlternativa;
 import br.com.praticas.model.Alternativa;
+import br.com.praticas.model.Pergunta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +23,7 @@ import java.util.logging.Logger;
  * @author Felipe
  */
 public class AlternativaDao implements InterfaceAlternativa {
-    
+
     @Override
     public long salvarAlternativa(Alternativa a) throws Exception {
         long resultado = -1;
@@ -55,4 +58,32 @@ public class AlternativaDao implements InterfaceAlternativa {
         return resultado;
     }
 
+    @Override
+    public List<Alternativa> listar() {
+        List<Alternativa> alternativas = new ArrayList<>();
+        String sql = "select * from alternativa";
+        Connection cn;
+        try {
+            cn = Conexao.getConnection();
+
+            PreparedStatement pst = cn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Alternativa alternativa = new Alternativa();
+                alternativa.setId(rs.getInt("id"));
+                alternativa.setAlt1(rs.getString("alt1"));
+                alternativa.setAlt2(rs.getString("alt2"));
+                alternativa.setAlt3(rs.getString("alt3"));
+                alternativa.setAlt4(rs.getString("alt4"));
+                alternativa.setAlt5(rs.getString("alt5"));
+                alternativa.setAltCorreta(rs.getString("altcorreta"));
+                Pergunta p = new PerguntaDao().buscarPergunta(rs.getInt("id_pergunta"));
+                alternativa.setPergunta(p);
+                alternativas.add(alternativa);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return alternativas;
+    }
 }

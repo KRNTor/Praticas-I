@@ -6,6 +6,7 @@
 package br.com.praticas.interfaces;
 
 import br.com.praticas.model.Alternativa;
+import java.util.List;
 
 /**
  *
@@ -14,5 +15,7 @@ import br.com.praticas.model.Alternativa;
 public interface InterfaceAlternativa {
     
     public long salvarAlternativa(Alternativa a) throws Exception;
+    
+    public List<Alternativa> listar() throws Exception;
     
 }

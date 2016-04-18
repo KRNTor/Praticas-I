@@ -33,11 +33,11 @@ public class PerguntaDao implements PerguntaInterface {
             cn = Conexao.getConnection();
 
             long id_alternativa = new AlternativaDao().salvarAlternativa(a);
-            
+
             PreparedStatement pst = cn.prepareStatement(sql);
             pst.setString(1, p.getQuestao());
             pst.setString(2, p.getNivel());
-            pst.setInt(3, (int)p.getArea().getId());
+            pst.setInt(3, (int) p.getArea().getId());
             pst.executeUpdate();
             cn.close();
         } catch (SQLException ex) {
@@ -93,6 +93,31 @@ public class PerguntaDao implements PerguntaInterface {
         return null;
     }
 
+    public Pergunta buscarPergunta(long id) throws Exception {
+        String sql = "select * from pergunta";
+        Connection cn;
+        try {
+            cn = Conexao.getConnection();
+
+            PreparedStatement pst = cn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                if (Long.valueOf(rs.getString("id")) == id) {
+                    Pergunta p = new Pergunta();
+                    p.setId(rs.getInt("id"));
+                    p.setQuestao(rs.getString("questao"));
+                    p.setNivel(rs.getString("nivel"));
+                    p.getArea().setId(rs.getInt("id_area"));
+                    return p;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("ERRO AO ENCONTRAR PERGUNTA");
+        }
+        return null;
+    }
+
     @Override
     public List<Pergunta> listarPergunta() throws Exception {
         List<Pergunta> perguntas = new ArrayList<>();
@@ -126,7 +151,7 @@ public class PerguntaDao implements PerguntaInterface {
             cn = Conexao.getConnection();
 
             PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setInt(1, (int)p.getId());
+            pst.setInt(1, (int) p.getId());
             pst.executeUpdate();
             cn.close();
         } catch (Exception e) {
@@ -134,8 +159,8 @@ public class PerguntaDao implements PerguntaInterface {
             throw new Exception("ERRO AO REMOVER PERGUNTA");
         }
     }
-      
-    public void editarPergunta(Pergunta p)throws Exception {
+
+    public void editarPergunta(Pergunta p) throws Exception {
         String sql = "UPDATE pergunta SET questao = ?, nivel =? where id = ?";
         Connection cn;
         try {
@@ -145,7 +170,7 @@ public class PerguntaDao implements PerguntaInterface {
             pst = cn.prepareStatement(sql);
             pst.setString(1, p.getQuestao());
             pst.setString(2, p.getNivel());
-            pst.setInt(3, (int)p.getId());
+            pst.setInt(3, (int) p.getId());
             pst.executeUpdate();
             cn.close();
         } catch (SQLException e) {
