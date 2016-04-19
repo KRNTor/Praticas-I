@@ -29,6 +29,8 @@ public class AlternativaDao implements InterfaceAlternativa {
         long resultado = -1;
         String sql = "insert into alternativa (alt1, alt2, alt3, alt4, alt5, altcorreta, id_pergunta) values (?, ?, ?, ?, ?, ?, ?);";
         Connection cn;
+        
+        System.out.println("teste");
 
         try {
             cn = Conexao.getConnection();
