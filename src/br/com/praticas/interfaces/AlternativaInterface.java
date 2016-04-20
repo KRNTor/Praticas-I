@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Felipe
  */
-public interface InterfaceAlternativa {
+public interface AlternativaInterface {
     
     public long salvarAlternativa(Alternativa a) throws Exception;
     

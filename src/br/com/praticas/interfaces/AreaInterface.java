@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Felipe
  */
-public interface InterfaceArea {
+public interface AreaInterface {
 
     public void salvarArea(Area a) throws Exception;
 

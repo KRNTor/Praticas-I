@@ -6,7 +6,7 @@
 package br.com.praticas.dao;
 
 import br.com.praticas.factory.Conexao;
-import br.com.praticas.interfaces.InterfaceArea;
+import br.com.praticas.interfaces.AreaInterface;
 import br.com.praticas.model.Area;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author Felipe
  */
-public class AreaDao implements InterfaceArea {
+public class AreaDao implements AreaInterface {
 
     @Override
     public void salvarArea(Area a) throws Exception {
