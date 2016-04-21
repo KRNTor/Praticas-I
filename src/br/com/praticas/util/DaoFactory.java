@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.praticas.factory;
+package br.com.praticas.util;
 
 import br.com.praticas.dao.AlternativaDao;
 import br.com.praticas.dao.AreaDao;

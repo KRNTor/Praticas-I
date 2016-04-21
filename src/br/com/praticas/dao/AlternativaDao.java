@@ -5,7 +5,7 @@
  */
 package br.com.praticas.dao;
 
-import br.com.praticas.factory.Conexao;
+import br.com.praticas.util.Conexao;
 import br.com.praticas.interfaces.AlternativaInterface;
 import br.com.praticas.model.Alternativa;
 import br.com.praticas.model.Pergunta;

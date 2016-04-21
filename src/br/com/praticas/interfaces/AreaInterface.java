@@ -23,5 +23,7 @@ public interface AreaInterface {
     public List<Area> listarArea() throws Exception;
     
     public void removerArea(Area a) throws Exception;
+    
+    public void editarArea(Area a) throws Exception;
 
 }

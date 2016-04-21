@@ -5,9 +5,10 @@
  */
 package br.com.praticas.dao;
 
-import br.com.praticas.factory.Conexao;
+import br.com.praticas.util.Conexao;
 import br.com.praticas.interfaces.AreaInterface;
 import br.com.praticas.model.Area;
+import br.com.praticas.util.PropertiesUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class AreaDao implements AreaInterface {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("ERRO AO CADASTRAR AREA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_AREA));
         }
     }
 
@@ -59,7 +60,7 @@ public class AreaDao implements AreaInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception("ERRO AO ENCONTRAR AREA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_AREA));
         }
         return false;
     }
@@ -85,7 +86,7 @@ public class AreaDao implements AreaInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception("ERRO AO BUSCAR AREA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_AREA));
         }
         return null;
     }
@@ -127,11 +128,12 @@ public class AreaDao implements AreaInterface {
             cn.close();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("ERRO AO REMOVER AREA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE_AREA));
         }
     }
     
-     public void editarArea(Area a) {
+    @Override
+     public void editarArea(Area a) throws Exception {
         String sql = "UPDATE area SET nome = ? where id = ?";
         Connection cn;
         try {
@@ -146,7 +148,7 @@ public class AreaDao implements AreaInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new RuntimeException(e);
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_AREA));
         }
     }
 

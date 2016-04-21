@@ -5,7 +5,7 @@
  */
 package br.com.praticas.facade;
 
-import br.com.praticas.factory.DaoFactory;
+import br.com.praticas.util.DaoFactory;
 import br.com.praticas.interfaces.AlternativaInterface;
 import br.com.praticas.interfaces.AreaInterface;
 import br.com.praticas.interfaces.PerguntaInterface;
