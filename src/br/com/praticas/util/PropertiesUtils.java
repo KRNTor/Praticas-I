@@ -16,6 +16,7 @@ public class PropertiesUtils {
     public static final String URL = "jdbc.url";
     public static final String USERNAME = "jdbc.username";
     public static final String PASSWORD = "jdbc.password";
+    public static final String CLOSECONNECTION = "jdbc.closeConnection";
 
     //MSG USER
     public static final String MSG_ERRO_ADD_USER = "msg.error.add_user";
