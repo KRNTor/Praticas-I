@@ -8,6 +8,7 @@ package br.com.praticas.dao;
 import br.com.praticas.util.Conexao;
 import br.com.praticas.interfaces.UsuarioInterface;
 import br.com.praticas.model.Usuario;
+import br.com.praticas.util.PropertiesUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,7 +46,7 @@ public class UsuarioDao implements UsuarioInterface {
             e.printStackTrace();
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception("USUARIO");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_USER));
         }
 
     }
@@ -63,7 +64,7 @@ public class UsuarioDao implements UsuarioInterface {
             cn.close();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("ERRO AO REMOVER USUARIO");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE_USER));
         }
     }
 
@@ -84,7 +85,7 @@ public class UsuarioDao implements UsuarioInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception("ERRO AO VERIFICAR EXISTENCIA DE USUARIO");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_USER));
         }
         return false;
     }
@@ -113,13 +114,13 @@ public class UsuarioDao implements UsuarioInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception("ERRO AO BUSCAR USUARIO");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_USER));
         }
         return null;
     }
 
     @Override
-    public List<Usuario> listarUsuario() {
+    public List<Usuario> listarUsuario() throws Exception{
         cn = Conexao.getConnection();
         
         List<Usuario> usuarios = new ArrayList<>();
@@ -141,6 +142,7 @@ public class UsuarioDao implements UsuarioInterface {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_LIST_USER));
         }
         return usuarios;
     }
@@ -163,7 +165,7 @@ public class UsuarioDao implements UsuarioInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new RuntimeException(e);
+            throw new RuntimeException(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_USER));
         }
     }
 

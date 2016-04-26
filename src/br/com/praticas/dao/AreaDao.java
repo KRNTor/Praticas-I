@@ -110,7 +110,7 @@ public class AreaDao implements AreaInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception("ERRO AO LISTAR PERGUNTAS");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_LIST_AREA));
         }
         return areas;
     }

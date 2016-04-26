@@ -9,6 +9,7 @@ import br.com.praticas.util.Conexao;
 import br.com.praticas.interfaces.PerguntaInterface;
 import br.com.praticas.model.Alternativa;
 import br.com.praticas.model.Pergunta;
+import br.com.praticas.util.PropertiesUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,7 +43,7 @@ public class PerguntaDao implements PerguntaInterface {
             cn.close();
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("ERRO AO SALVAR PERGUNTA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_QUESTION));
         }
     }
 
@@ -62,7 +63,7 @@ public class PerguntaDao implements PerguntaInterface {
             }
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("ERRO AO VERIFICAR EXISTENCIA DE PERGUNTA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_QUESTION));
         }
         return false;
     }
@@ -88,7 +89,7 @@ public class PerguntaDao implements PerguntaInterface {
             }
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("ERRO AO ENCONTRAR PERGUNTA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_QUESTION));
         }
         return null;
     }
@@ -113,7 +114,7 @@ public class PerguntaDao implements PerguntaInterface {
             }
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("ERRO AO ENCONTRAR PERGUNTA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_QUESTION));
         }
         return null;
     }
@@ -138,7 +139,7 @@ public class PerguntaDao implements PerguntaInterface {
             }
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("ERRO AO LISTAR PERGUNTAS");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_LIST_QUESTION));
         }
         return perguntas;
     }
@@ -156,7 +157,7 @@ public class PerguntaDao implements PerguntaInterface {
             cn.close();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("ERRO AO REMOVER PERGUNTA");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE_QUESTION));
         }
     }
 
@@ -176,7 +177,7 @@ public class PerguntaDao implements PerguntaInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new RuntimeException(e);
+            throw new RuntimeException(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_QUESTION));
         }
     }
 }

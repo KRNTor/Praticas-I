@@ -9,6 +9,7 @@ import br.com.praticas.util.Conexao;
 import br.com.praticas.interfaces.AlternativaInterface;
 import br.com.praticas.model.Alternativa;
 import br.com.praticas.model.Pergunta;
+import br.com.praticas.util.PropertiesUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,13 +54,13 @@ public class AlternativaDao implements AlternativaInterface {
             ex.printStackTrace();
             resultado = -1;
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("ERRO AO SALVAR ALTERNATIVAS");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_ALTERNATIVE));
         }
         return resultado;
     }
 
     @Override
-    public List<Alternativa> listar() {
+    public List<Alternativa> listar() throws Exception{
         List<Alternativa> alternativas = new ArrayList<>();
         String sql = "select * from alternativa";
         Connection cn;
@@ -83,6 +84,7 @@ public class AlternativaDao implements AlternativaInterface {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_LIST_ALTERNATIVE));
         }
         return alternativas;
     }
