@@ -22,21 +22,17 @@ import java.util.logging.Logger;
  *
  * @author Felipe
  */
-public class AreaDao implements AreaInterface {
+public class AreaDao extends DaoGeneric implements AreaInterface {
 
     @Override
     public void salvarArea(Area a) throws Exception {
         try {
             String sql = "insert into area (nome) values (?)";
-            Connection cn;
-            if (!verificarArea(a.getAreaNome())) {
-                cn = Conexao.getConnection();
-
-                PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setString(1, a.getAreaNome());
-                pst.executeUpdate();
-                cn.close();
-            }
+            PreparedStatement pst = getConexao().prepareStatement(sql);
+            pst.setString(1, a.getAreaNome());
+            pst.executeUpdate();
+            this.getConexao().commit();
+            this.fecharConexao();
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_AREA));
@@ -47,10 +43,8 @@ public class AreaDao implements AreaInterface {
     public boolean verificarArea(String areaNome) throws Exception {
         Area a = null;
         String sql = "select * from area";
-        Connection cn;
         try {
-            cn = Conexao.getConnection();
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getString("nome").equalsIgnoreCase(areaNome)) {
@@ -69,17 +63,15 @@ public class AreaDao implements AreaInterface {
     public Area buscarArea(String areaNome) throws Exception {
         Area a = null;
         String sql = "select * from area";
-        Connection cn;
         try {
-            cn = Conexao.getConnection();
-
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getString("nome").equalsIgnoreCase(areaNome)) {
                     a = new Area();
                     a.setId(rs.getInt("id"));
                     a.setAreaNome(rs.getString("nome"));
+                    this.fecharConexao();
                     return a;
                 }
             }
@@ -92,14 +84,11 @@ public class AreaDao implements AreaInterface {
     }
 
     @Override
-    public List<Area> listarArea() throws Exception{
+    public List<Area> listarArea() throws Exception {
         List<Area> areas = new ArrayList<>();
         String sql = "select * from area";
-        Connection cn;
         try {
-            cn = Conexao.getConnection();
-
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Area area = new Area();
@@ -107,6 +96,7 @@ public class AreaDao implements AreaInterface {
                 area.setAreaNome(rs.getString("nome"));
                 areas.add(area);
             }
+            this.fecharConexao();
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
@@ -118,33 +108,28 @@ public class AreaDao implements AreaInterface {
     @Override
     public void removerArea(Area a) throws Exception {
         String sql = "delete from area a where a.id = ?";
-        Connection cn;
         try {
-            cn = Conexao.getConnection();
-
-            PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setInt(1, (int)a.getId());
+            PreparedStatement pst = getConexao().prepareStatement(sql);
+            pst.setInt(1, (int) a.getId());
             pst.executeUpdate();
-            cn.close();
+            this.getConexao().commit();
+            this.fecharConexao();
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE_AREA));
         }
     }
-    
-    @Override
-     public void editarArea(Area a) throws Exception {
-        String sql = "UPDATE area SET nome = ? where id = ?";
-        Connection cn;
-        try {
-            cn = Conexao.getConnection();
 
-            PreparedStatement pst = null;
-            pst = cn.prepareStatement(sql);
+    @Override
+    public void editarArea(Area a) throws Exception {
+        String sql = "UPDATE area SET nome = ? where id = ?";
+        try {
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             pst.setString(1, a.getAreaNome());
-            pst.setInt(2, (int)a.getId());
+            pst.setInt(2, (int) a.getId());
             pst.executeUpdate();
-            cn.close();
+            this.getConexao().commit();
+            this.fecharConexao();
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);

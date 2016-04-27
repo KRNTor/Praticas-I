@@ -5,12 +5,10 @@
  */
 package br.com.praticas.dao;
 
-import br.com.praticas.util.Conexao;
 import br.com.praticas.interfaces.AlternativaInterface;
 import br.com.praticas.model.Alternativa;
 import br.com.praticas.model.Pergunta;
 import br.com.praticas.util.PropertiesUtils;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,18 +21,15 @@ import java.util.logging.Logger;
  *
  * @author Felipe
  */
-public class AlternativaDao implements AlternativaInterface {
+public class AlternativaDao extends DaoGeneric implements AlternativaInterface {
 
     @Override
     public long salvarAlternativa(Alternativa a) throws Exception {
         long resultado = -1;
         String sql = "insert into alternativa (alt1, alt2, alt3, alt4, alt5, altcorreta, id_pergunta) values (?, ?, ?, ?, ?, ?, ?);";
-        Connection cn;
 
         try {
-            cn = Conexao.getConnection();
-
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             pst.setString(1, a.getAlt1());
             pst.setString(2, a.getAlt2());
             pst.setString(3, a.getAlt3());
@@ -49,7 +44,8 @@ public class AlternativaDao implements AlternativaInterface {
                     resultado = rs.getLong(1);
                 }
             }
-            cn.close();
+            getConexao().commit();
+            this.fecharConexao();
         } catch (SQLException ex) {
             ex.printStackTrace();
             resultado = -1;
@@ -63,11 +59,9 @@ public class AlternativaDao implements AlternativaInterface {
     public List<Alternativa> listar() throws Exception{
         List<Alternativa> alternativas = new ArrayList<>();
         String sql = "select * from alternativa";
-        Connection cn;
         try {
-            cn = Conexao.getConnection();
 
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Alternativa alternativa = new Alternativa();

@@ -16,15 +16,15 @@ import java.sql.SQLException;
 public class DaoGeneric {
     private Connection con;
     
-    public Connection getConnection() throws SQLException{
-        if(con == null || con.isClosed()){
-            con = Conexao.getConnection();
-            con.setAutoCommit(false);
+    public Connection getConexao() throws SQLException{
+        if(this.con == null || this.con.isClosed()){
+            this.con = Conexao.getConnection();
+            this.con.setAutoCommit(false);
         }
-        return con;
+        return this.con;
     } 
     
-    public void closeConection(){
+    public void fecharConexao(){
         Conexao.closeConnection();
     }
 }

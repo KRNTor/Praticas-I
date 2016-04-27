@@ -1,14 +1,7 @@
 
 import br.com.praticas.util.Conexao;
-import br.com.praticas.dao.AreaDao;
-import br.com.praticas.dao.AlternativaDao;
-import br.com.praticas.dao.PerguntaDao;
-import br.com.praticas.dao.UsuarioDao;
+import br.com.praticas.facade.Facade;
 import br.com.praticas.model.*;
-import br.com.praticas.util.PropertiesUtils;
-import java.util.List;
-import java.util.Properties;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,14 +16,28 @@ import java.util.logging.Logger;
  */
 public class Test {
 
+    private static Facade facade;
+
     public static void main(String[] w) {
 
-        if (Conexao.getConnection() != null) {
-            System.out.println("conexao ok\n");
-        }
+        facade = new Facade();
+        try {
+            if (Conexao.getConnection() != null) {
+                System.out.println("conexao ok\n");
+                facade = new Facade();
+            }
 
-        if (Conexao.getConnection() == null) {
-            System.out.println("conexao falhou\n");
+            if (Conexao.getConnection() == null) {
+                System.out.println("conexao falhou\n");
+                facade = new Facade();
+            }
+
+            Area a = new Area();
+            a.setAreaNome("Biologia");
+            facade.salvarArea(a);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 //        int escolha = 100;

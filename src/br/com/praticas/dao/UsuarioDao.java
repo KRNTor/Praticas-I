@@ -22,26 +22,23 @@ import java.util.logging.Logger;
  *
  * @author RicksonEllen
  */
-public class UsuarioDao implements UsuarioInterface {
-
-    private Connection cn;
+public class UsuarioDao extends DaoGeneric implements UsuarioInterface {
 
     @Override
     public void salvarUsuario(Usuario u) throws Exception {
 
-        cn = Conexao.getConnection();
-
         String sql = "insert into usuario (nome, nick, senha, email, tipo) values (?, ?, ?, ?, ?);";
 
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             pst.setString(1, u.getNome());
             pst.setString(2, u.getNick());
             pst.setString(3, u.getSenha());
             pst.setString(4, u.getEmail());
             pst.setString(5, u.getTipo());
             pst.executeUpdate();
-            cn.close();
+            getConexao().commit();
+            this.fecharConexao();
         } catch (SQLException e) {
             e.printStackTrace();
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
@@ -53,15 +50,14 @@ public class UsuarioDao implements UsuarioInterface {
 
     @Override
     public void removerUsuario(Usuario u) throws Exception {
-        cn = Conexao.getConnection();
-
         String sql = "delete from usuario u where u.id = ?";
 
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             pst.setInt(1, (int) u.getId());
             pst.executeUpdate();
-            cn.close();
+            this.getConexao().commit();
+            this.fecharConexao();
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE_USER));
@@ -70,12 +66,10 @@ public class UsuarioDao implements UsuarioInterface {
 
     @Override
     public boolean verificarUsuario(String nome) throws Exception {
-        cn = Conexao.getConnection();
-
         String sql = "select * from usuario u";
 
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getString("nick").equalsIgnoreCase(nome) && rs.getString("senha").equalsIgnoreCase(nome)) {
@@ -92,12 +86,10 @@ public class UsuarioDao implements UsuarioInterface {
 
     @Override
     public Usuario buscarUsuario(String nick, String senha) throws Exception {
-        cn = Conexao.getConnection();
-
         String sql = "select * from usuario c";
 
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getString("nick").equalsIgnoreCase(nick) && rs.getString("senha").equalsIgnoreCase(senha)) {
@@ -108,6 +100,7 @@ public class UsuarioDao implements UsuarioInterface {
                     user.setSenha(rs.getString("senha"));
                     user.setEmail(rs.getString("email"));
                     user.setTipo(rs.getString("tipo"));
+                    this.fecharConexao();
                     return user;
                 }
             }
@@ -120,15 +113,13 @@ public class UsuarioDao implements UsuarioInterface {
     }
 
     @Override
-    public List<Usuario> listarUsuario() throws Exception{
-        cn = Conexao.getConnection();
-        
+    public List<Usuario> listarUsuario() throws Exception {
         List<Usuario> usuarios = new ArrayList<>();
-        
+
         String sql = "select * from usuario c";
-       
+
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Usuario user = new Usuario();
@@ -140,6 +131,7 @@ public class UsuarioDao implements UsuarioInterface {
                 user.setTipo(rs.getString("tipo"));
                 usuarios.add(user);
             }
+            this.fecharConexao();
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_LIST_USER));
@@ -149,19 +141,18 @@ public class UsuarioDao implements UsuarioInterface {
 
     @Override
     public void editarUsuario(Usuario u) {
-        cn = Conexao.getConnection();
-        
         String sql = "UPDATE usuario SET nome = ?, nick =?, senha=? where id = ?";
-        
+
         try {
             PreparedStatement pst = null;
-            pst = cn.prepareStatement(sql);
+            pst = getConexao().prepareStatement(sql);
             pst.setString(1, u.getNome());
             pst.setString(2, u.getNick());
             pst.setString(3, u.getSenha());
             pst.setInt(4, (int) u.getId());
             pst.executeUpdate();
-            cn.close();
+            this.getConexao().commit();
+            this.fecharConexao();
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
