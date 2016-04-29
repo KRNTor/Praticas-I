@@ -79,7 +79,7 @@ public class UsuarioDao extends DaoGeneric implements UsuarioInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_USER));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_USER));
         }
         return false;
     }
@@ -107,7 +107,7 @@ public class UsuarioDao extends DaoGeneric implements UsuarioInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_USER));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_USER));
         }
         return null;
     }

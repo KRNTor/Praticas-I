@@ -6,125 +6,103 @@
 package br.com.praticas.dao;
 
 import br.com.praticas.interfaces.InterfaceHistoricoJogador;
-import br.com.praticas.model.Alternativa;
-import br.com.praticas.model.HistoricoJogador;
-import br.com.praticas.model.Pergunta;
-import br.com.praticas.model.Usuario;
-import br.com.praticas.util.Conexao;
-import br.com.praticas.util.PropertiesUtils;
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import br.com.praticas.model.*;
+import br.com.praticas.util.*;
+import java.sql.*;
+import java.util.logging.*;
 
 /**
  *
  * @author Sidney
  */
-public class HistoricoJogadorDao implements InterfaceHistoricoJogador {
+public class HistoricoJogadorDao extends DaoGeneric implements InterfaceHistoricoJogador {
 
     @Override
     public void salvarHistoricoJogador(HistoricoJogador h, Pergunta p, Usuario u) throws Exception {
-        String sql = "insert into historicoJogador (perguntascertas, perguntasrespondidas, id_usuario, id_pergunta ) values(?, ?, ?, ?);";
-        Connection cn;
-
-        cn = Conexao.getConnection();
+        String sql = "insert into historicoJogador (qntcertas, qntrespondidas, id_usuario, id_pergunta) values(?, ?, ?, ?);";
 
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setInt(1, h.getPerguntasCertas());
-            pst.setInt(2, h.getPerguntasRespondidas());
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
+            pst.setLong(1, h.getPerguntasCertas());
+            pst.setLong(2, h.getPerguntasRespondidas());
             pst.setLong(3, u.getId());
             pst.setLong(4, p.getId());
             pst.executeUpdate();
-            cn.close();
-
+            this.getConexao().commit();
+            this.fecharConexao();
         } catch (SQLException e) {
             e.printStackTrace();
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception("ERRO AO CADASTRAR HISTORICO DO JOGADOR");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_HISTORICO));
         }
     }
 
+    @Override
     public HistoricoJogador buscarHistorico(long id) throws Exception {
         String sql = "select * from historicoJogador where id = ?";
-        Connection cn;
-
-        cn = Conexao.getConnection();
 
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             pst.setLong(1, id);
             ResultSet rs = pst.executeQuery();
             HistoricoJogador hisJog = new HistoricoJogador();
             hisJog.setPerguntasCertas(rs.getInt("perguntascertas"));
             hisJog.setPerguntasRespondidas(rs.getInt("perguntasrespondidas"));
+            //INCOMPLETO
             return hisJog;
         } catch (SQLException e) {
             e.printStackTrace();
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception("ERRO AO BUSCAR HISTORICO DO JOGADOR");
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_HISTORICO));
         }
-        
+
     }
 
-    
+    @Override
+    public void editarHistorico(Usuario u, Pergunta p, HistoricoJogador h) throws Exception {
+        String sql = "UPDATE historicojogador SET perguntascertas = ?, perguntasrespondidas = ?"; //INCOMPLETA
 
-    
-    public void atualizarHistorico(Usuario u, Pergunta p, HistoricoJogador h) throws Exception {
-        String sql = "UPDATE historicojogador SET perguntascertas = ?, perguntasrespondidas = ?,  ";
-        Connection cn;
-
-        cn = Conexao.getConnection();
         long id_pergunta = salvarPergunta(p);
 
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             pst.setInt(1, h.getPerguntasCertas() + 1);
             pst.setInt(2, h.getPerguntasRespondidas() + 1);
-
+            //MUITO INCOMPLETO
         } catch (SQLException e) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_QUESTION));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_HISTORICO));
         }
-
     }
 
-    public void atualizarHistorico2(Usuario u, Pergunta p, HistoricoJogador h) throws Exception {
-        String sql = "UPDATE historicojogador SET perguntasrespondidas = ?,  ";
-        Connection cn;
-
-        cn = Conexao.getConnection();
+    @Override
+    public void editarHistorico2(Usuario u, Pergunta p, HistoricoJogador h) throws Exception {//NOME DO METODO & PARAMETROS ERRADOS
+        String sql = "UPDATE historicojogador SET perguntasrespondidas = ?"; //INCOMPLETA
 
         try {
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             pst.setInt(1, h.getPerguntasRespondidas() + 1);
-
+            //MUITO INCOMPLETO
         } catch (SQLException e) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_QUESTION));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_HISTORICO));
         }
 
     }
 
+    @Override
     public long salvarPergunta(Pergunta p) throws Exception {
-        String sql = "insert into perguntahistorico  (questao, nivel, id_area) values (?, ?, ?);";
-        Connection cn;
-
+        String sql = "insert into perguntahistorico (questao, nivel, id_area) values (?, ?, ?);";//ERRADO
         try {
-            cn = Conexao.getConnection();
-
-            PreparedStatement pst = cn.prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             pst.setString(1, p.getQuestao());
             pst.setString(2, p.getNivel());
             pst.setInt(3, (int) p.getArea().getId());
             pst.executeUpdate();
-            cn.close();
+            this.getConexao().commit();
+            this.fecharConexao();
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_QUESTION));

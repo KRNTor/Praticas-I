@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.postgresql.util.PSQLException;
 
 /**
  *
@@ -33,10 +34,14 @@ public class AreaDao extends DaoGeneric implements AreaInterface {
             pst.executeUpdate();
             this.getConexao().commit();
             this.fecharConexao();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_AREA));
+        } catch (PSQLException e) {
+            throw new SQLException(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_AREA));
         }
+
+//        catch (Exception e) {
+//            e.printStackTrace();
+//            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_AREA));
+//        }
     }
 
     @Override
@@ -54,7 +59,7 @@ public class AreaDao extends DaoGeneric implements AreaInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_AREA));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_AREA));
         }
         return false;
     }
@@ -78,7 +83,7 @@ public class AreaDao extends DaoGeneric implements AreaInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_AREA));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_AREA));
         }
         return null;
     }

@@ -57,7 +57,7 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
             }
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_QUESTION));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_QUESTION));
         }
         return false;
     }
@@ -81,7 +81,7 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
             }
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_QUESTION));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_QUESTION));
         }
         return null;
     }
@@ -104,7 +104,7 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
             }
         } catch (SQLException ex) {
             Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCHE_QUESTION));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_QUESTION));
         }
         return null;
     }

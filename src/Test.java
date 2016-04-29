@@ -48,7 +48,7 @@ public class Test {
 //            escolha = in.nextInt();
 //            in.nextLine();
 //            switch (escolha) {
-//                case 1:
+//                case 1:   
 //                    System.out.println("0 - sair\n1 - cadastrar usuarioADM\n2 - cadastrar usuarioJOGADOR");
 //                    escolha = in.nextInt();
 //                    in.nextLine();

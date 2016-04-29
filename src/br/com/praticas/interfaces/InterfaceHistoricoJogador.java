@@ -14,10 +14,15 @@ import br.com.praticas.model.Usuario;
  * @author Sidney
  */
 public interface InterfaceHistoricoJogador {
-    
+
     public void salvarHistoricoJogador(HistoricoJogador h, Pergunta p, Usuario u) throws Exception;
-    public void atualizarHistorico(Usuario u, Pergunta p, HistoricoJogador h) throws Exception;
-    public void atualizarHistorico2(Usuario u, Pergunta p, HistoricoJogador h) throws Exception;
+
+    public HistoricoJogador buscarHistorico(long id) throws Exception;
+
+    public void editarHistorico(Usuario u, Pergunta p, HistoricoJogador h) throws Exception;
+
+    public void editarHistorico2(Usuario u, Pergunta p, HistoricoJogador h) throws Exception;
+
     public long salvarPergunta(Pergunta p) throws Exception;
-    
+
 }

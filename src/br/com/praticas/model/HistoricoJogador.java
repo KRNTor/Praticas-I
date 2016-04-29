@@ -64,11 +64,6 @@ public class HistoricoJogador {
         return pergunta;
     }
 
-    
-
-   
-
-   
     @Override
     public String toString() {
         return "Resposta{" + "perguntas=" + perguntasRespondidas + ", PerguntasCertas=" + perguntasCertas + '}';
