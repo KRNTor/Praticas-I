@@ -5,9 +5,9 @@
  */
 package br.com.praticas.dao;
 
-import br.com.praticas.util.Conexao;
+import br.com.praticas.facade.Facade;
 import br.com.praticas.interfaces.PerguntaInterface;
-import br.com.praticas.model.Alternativa;
+import br.com.praticas.model.Area;
 import br.com.praticas.model.Pergunta;
 import br.com.praticas.util.PropertiesUtils;
 import java.sql.Connection;
@@ -23,23 +23,22 @@ import java.util.logging.Logger;
  *
  * @author Sidney
  */
-public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
+public class DaoPergunta extends DaoGeneric implements PerguntaInterface {
 
     @Override
-    public void salvarPergunta(Pergunta p, Alternativa a) throws Exception {
-        String sql = "insert into pergunta (questao, nivel, id_area) values (?, ?, ?);";
+    public void salvarPergunta(Pergunta p) throws Exception {
+        String sql = "insert into pergunta (questao, nivel, id_area) values (?, ?, ?)";
 
         try {
-            long id_alternativa = new AlternativaDao().salvarAlternativa(a);
-            PreparedStatement pst = getConexao().prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             pst.setString(1, p.getQuestao());
             pst.setString(2, p.getNivel());
-            pst.setInt(3, (int) p.getArea().getId());
+            pst.setLong(3, p.getArea().getId());
             pst.executeUpdate();
-            getConexao().commit();
+            this.getConexao().commit();
             this.fecharConexao();
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_QUESTION));
         }
     }
@@ -48,15 +47,16 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
     public boolean verificarPergunta(String nome) throws Exception {
         String sql = "select * from pergunta";
         try {
-            PreparedStatement pst = getConexao().prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getString("questao").equalsIgnoreCase(nome)) {
+                    this.fecharConexao();
                     return true;
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_QUESTION));
         }
         return false;
@@ -66,7 +66,7 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
     public Pergunta buscarPergunta(String nome) throws Exception {
         String sql = "select * from pergunta";
         try {
-            PreparedStatement pst = getConexao().prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getString("questao").equalsIgnoreCase(nome)) {
@@ -74,22 +74,25 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
                     p.setId(rs.getInt("id"));
                     p.setQuestao(rs.getString("questao"));
                     p.setNivel(rs.getString("nivel"));
-                    p.getArea().setId(rs.getInt("id_area"));
+                    Area area = new DaoArea().buscarArea(rs.getLong("id_area"));
+                    p.setArea(area);
+                    System.out.println(p.toString());
                     this.fecharConexao();
                     return p;
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_QUESTION));
         }
         return null;
     }
 
+    @Override
     public Pergunta buscarPergunta(long id) throws Exception {
         String sql = "select * from pergunta";
         try {
-            PreparedStatement pst = getConexao().prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 if (Long.valueOf(rs.getString("id")) == id) {
@@ -97,13 +100,14 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
                     p.setId(rs.getInt("id"));
                     p.setQuestao(rs.getString("questao"));
                     p.setNivel(rs.getString("nivel"));
-                    p.getArea().setId(rs.getInt("id_area"));
+                    Area area = new DaoArea().buscarArea(rs.getLong("id_area"));
+                    p.setArea(area);
                     this.fecharConexao();
                     return p;
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_QUESTION));
         }
         return null;
@@ -114,7 +118,7 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
         List<Pergunta> perguntas = new ArrayList<>();
         String sql = "select * from pergunta";
         try {
-            PreparedStatement pst = getConexao().prepareStatement(sql);
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Pergunta p = new Pergunta();
@@ -126,7 +130,7 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
             }
             this.fecharConexao();
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_LIST_QUESTION));
         }
         return perguntas;
@@ -134,16 +138,16 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
 
     @Override
     public void removerPergunta(Pergunta p) throws Exception {
-        String sql = "delete from pergunta p where p.id = ? ";
+        String sql = "DELETE FROM pergunta p where p.id = ?";
         try {
-            PreparedStatement pst = getConexao().prepareStatement(sql);
-            pst.setInt(1, (int) p.getId());
+            PreparedStatement pst = this.getConexao().prepareStatement(sql);
+            pst.setLong(1, p.getId());
             pst.executeUpdate();
-            getConexao().commit();
+            this.getConexao().commit();
             this.fecharConexao();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE_QUESTION));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE));
         }
     }
 
@@ -155,12 +159,12 @@ public class PerguntaDao extends DaoGeneric implements PerguntaInterface {
             pst.setString(2, p.getNivel());
             pst.setInt(3, (int) p.getId());
             pst.executeUpdate();
-            getConexao().commit();
+            this.getConexao().commit();
             this.fecharConexao();
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new RuntimeException(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_QUESTION));
+            throw new RuntimeException(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE));
         }
     }
 }

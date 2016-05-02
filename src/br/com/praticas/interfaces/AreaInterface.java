@@ -19,6 +19,8 @@ public interface AreaInterface {
     public boolean verificarArea(String area) throws Exception;
 
     public Area buscarArea(String area) throws Exception;
+    
+    public Area buscarArea(long id) throws Exception;
 
     public List<Area> listarArea() throws Exception;
     

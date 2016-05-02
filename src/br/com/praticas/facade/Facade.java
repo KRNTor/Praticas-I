@@ -8,10 +8,12 @@ package br.com.praticas.facade;
 import br.com.praticas.util.DaoFactory;
 import br.com.praticas.interfaces.AlternativaInterface;
 import br.com.praticas.interfaces.AreaInterface;
+import br.com.praticas.interfaces.InterfaceHistoricoJogador;
 import br.com.praticas.interfaces.PerguntaInterface;
 import br.com.praticas.interfaces.UsuarioInterface;
 import br.com.praticas.model.Alternativa;
 import br.com.praticas.model.Area;
+import br.com.praticas.model.HistoricoJogador;
 import br.com.praticas.model.Pergunta;
 import br.com.praticas.model.Usuario;
 import java.io.Serializable;
@@ -27,12 +29,14 @@ public class Facade implements Serializable {
     private PerguntaInterface daoPergunta;
     private AreaInterface daoArea;
     private AlternativaInterface daoAlternativa;
+    private InterfaceHistoricoJogador daoHistoricoJogador;
 
     public Facade() {
         this.daoUsuario = DaoFactory.createUsuarioDao();
         this.daoPergunta = DaoFactory.createPerguntaDao();
         this.daoArea = DaoFactory.createAreaDao();
         this.daoAlternativa = DaoFactory.createAlternativaDao();
+        this.daoHistoricoJogador = DaoFactory.createHistoricoDao();
     }
 
     //METODOS DO DAO USUARIO
@@ -61,8 +65,8 @@ public class Facade implements Serializable {
     }
 
     //METODOS DO DAO PERGUNTA
-    public void salvarPergunta(Pergunta p, Alternativa a) throws Exception {
-        this.daoPergunta.salvarPergunta(p, a);
+    public void salvarPergunta(Pergunta p) throws Exception {
+        this.daoPergunta.salvarPergunta(p);
     }
 
     public boolean verificarPergunta(String questao) throws Exception {
@@ -105,6 +109,10 @@ public class Facade implements Serializable {
     public void removerArea(Area a) throws Exception {
         this.daoArea.removerArea(a);
     }
+    
+    public void editarArea(Area a) throws Exception{
+        this.daoArea.editarArea(a);
+    }
 
     //METODOS DO DAO ALTERNATIVA
     public long salvarAlternativa(Alternativa a) throws Exception {
@@ -113,5 +121,10 @@ public class Facade implements Serializable {
 
     public List<Alternativa> listar() throws Exception {
         return this.daoAlternativa.listar();
+    }
+
+    //METODOS DO DAO HISTORICOJOGADOR
+    public void salvarHistorico(HistoricoJogador h, Pergunta p, Usuario u) throws Exception {
+        this.daoHistoricoJogador.salvarHistoricoJogador(h, p, u);
     }
 }

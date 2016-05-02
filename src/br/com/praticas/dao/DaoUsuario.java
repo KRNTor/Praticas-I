@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author RicksonEllen
  */
-public class UsuarioDao extends DaoGeneric implements UsuarioInterface {
+public class DaoUsuario extends DaoGeneric implements UsuarioInterface {
 
     @Override
     public void salvarUsuario(Usuario u) throws Exception {
@@ -60,7 +60,7 @@ public class UsuarioDao extends DaoGeneric implements UsuarioInterface {
             this.fecharConexao();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE_USER));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE));
         }
     }
 
@@ -156,7 +156,7 @@ public class UsuarioDao extends DaoGeneric implements UsuarioInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new RuntimeException(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_USER));
+            throw new RuntimeException(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE));
         }
     }
 

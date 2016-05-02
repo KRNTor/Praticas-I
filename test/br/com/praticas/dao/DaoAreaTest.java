@@ -7,11 +7,8 @@ package br.com.praticas.dao;
 
 import br.com.praticas.facade.Facade;
 import br.com.praticas.model.Area;
-import java.util.List;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
@@ -20,12 +17,12 @@ import org.junit.Ignore;
  *
  * @author Felipe
  */
-public class AreaDaoTest {
+public class DaoAreaTest {
     
     Area area;
     Facade facade;
     
-    public AreaDaoTest() {
+    public DaoAreaTest() {
     }
     
     @Before
@@ -46,7 +43,7 @@ public class AreaDaoTest {
     @Test
     public void testSalvarArea() throws Exception {
         System.out.println("salvarArea");
-        area.setAreaNome("Biologia");
+        area.setAreaNome("Quimica");
         facade.salvarArea(area);
     }
 
@@ -56,10 +53,8 @@ public class AreaDaoTest {
     @Ignore
     public void testBuscarArea() throws Exception {
         System.out.println("buscarArea");
-        String areaNome = "Fizica";
-        AreaDao instance = new AreaDao();
         String expResult = "Fizica";
-        Area result = instance.buscarArea(areaNome);
+        Area result = facade.buscarArea(expResult);
         assertEquals(expResult, result.getAreaNome());
     }
 
@@ -69,10 +64,9 @@ public class AreaDaoTest {
     @Ignore
     public void testRemoverArea() throws Exception {
         System.out.println("removerArea");
-        String busca = "Quimica";
-        Area a = new AreaDao().buscarArea(busca);
-        AreaDao instance = new AreaDao();
-        instance.removerArea(a);
+        String expResult = "Quimica";
+        Area a = new DaoArea().buscarArea(expResult);
+        facade.removerArea(a);
     }
 
     /**
@@ -82,10 +76,7 @@ public class AreaDaoTest {
     public void testEditarArea() throws Exception {
         System.out.println("editarArea");
         Area a = null;
-        AreaDao instance = new AreaDao();
-        instance.editarArea(a);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        facade.editarArea(a);
     }
     
 }

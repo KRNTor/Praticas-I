@@ -6,14 +6,10 @@
 package br.com.praticas.dao;
 
 import br.com.praticas.model.Usuario;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 
@@ -21,11 +17,11 @@ import org.junit.Ignore;
  *
  * @author Felipe
  */
-public class UsuarioDaoTest {
+public class DaoUsuarioTest {
 
     Usuario user;
 
-    public UsuarioDaoTest() {
+    public DaoUsuarioTest() {
     }
 
     @Before
@@ -49,11 +45,11 @@ public class UsuarioDaoTest {
         user.setSenha("teste123");
         user.setEmail("testJunit@gmail.com");
         user.setTipo("J");
-        UsuarioDao instance = new UsuarioDao();
+        DaoUsuario instance = new DaoUsuario();
         try {
             instance.salvarUsuario(user);
         } catch (Exception ex) {
-            Logger.getLogger(UsuarioDaoTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoUsuarioTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -63,7 +59,7 @@ public class UsuarioDaoTest {
     @Ignore
     public void testRemoverUsuario() throws Exception {
         System.out.println("removerUsuario");
-        UsuarioDao instance = new UsuarioDao();
+        DaoUsuario instance = new DaoUsuario();
         Usuario u = instance.buscarUsuario("TesteUsername", "teste123");
         instance.removerUsuario(u);
     }
@@ -74,7 +70,7 @@ public class UsuarioDaoTest {
     @Ignore
     public void testBuscarUsuario() throws Exception {
         System.out.println("buscarUsuario");
-        UsuarioDao instance = new UsuarioDao();
+        DaoUsuario instance = new DaoUsuario();
         String expResult = "Felipe";
         Usuario result = instance.buscarUsuario("KRNTor", "Wanderson");
         assertEquals(expResult, result.getNome());
@@ -87,7 +83,7 @@ public class UsuarioDaoTest {
     public void testEditarUsuario() {
         System.out.println("editarUsuario");
         Usuario u = null;
-        UsuarioDao instance = new UsuarioDao();
+        DaoUsuario instance = new DaoUsuario();
         instance.editarUsuario(u);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

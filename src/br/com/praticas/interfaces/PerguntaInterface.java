@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface PerguntaInterface {
 
-    public void salvarPergunta(Pergunta p, Alternativa a) throws Exception;
+    public void salvarPergunta(Pergunta p) throws Exception;
 
     public boolean verificarPergunta(String questao) throws Exception;
 

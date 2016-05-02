@@ -1,4 +1,5 @@
 
+import br.com.praticas.dao.DaoHistorico;
 import br.com.praticas.util.Conexao;
 import br.com.praticas.facade.Facade;
 import br.com.praticas.model.*;
@@ -32,9 +33,14 @@ public class Test {
                 facade = new Facade();
             }
 
-            Area a = new Area();
-            a.setAreaNome("Biologia");
-            facade.salvarArea(a);
+            HistoricoJogador hj = new HistoricoJogador();
+            Usuario user = facade.buscarUsuario("KRNTor", "Wanderson");
+            Pergunta p = facade.buscarPergunta(3);
+            hj.setUsuario(user);
+            hj.setPergunta(p);
+            hj.setPerguntasCertas(0);
+            hj.setPerguntasRespondidas(0);
+            new DaoHistorico().salvarHistoricoJogador(hj, p, user);
         } catch (Exception ex) {
             ex.printStackTrace();
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);

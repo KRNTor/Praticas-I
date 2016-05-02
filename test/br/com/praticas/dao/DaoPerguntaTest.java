@@ -9,26 +9,23 @@ import br.com.praticas.facade.Facade;
 import br.com.praticas.model.Alternativa;
 import br.com.praticas.model.Area;
 import br.com.praticas.model.Pergunta;
-import java.util.List;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  *
  * @author Felipe
  */
-public class PerguntaDaoTest {
+public class DaoPerguntaTest {
 
     Pergunta p;
     Alternativa a;
     Facade facade;
 
-    public PerguntaDaoTest() {
+    public DaoPerguntaTest() {
     }
 
     @Before
@@ -48,13 +45,13 @@ public class PerguntaDaoTest {
     /**
      * Test of salvarPergunta method, of class PerguntaDao.
      */
-    @Test
+    @Ignore
     public void testSalvarPergunta() throws Exception {
         System.out.println("salvarPergunta");
         p.setNivel("Facil");
-        Area area = facade.buscarArea("Fizica");
-        System.out.println(area.toString());
+        Area area = facade.buscarArea("Biologia");
         p.setArea(area);
+        p.setQuestao("o que e o que eh? teste");
         a.setAlt1("a");
         a.setAlt2("b");
         a.setAlt3("c");
@@ -62,7 +59,7 @@ public class PerguntaDaoTest {
         a.setAlt5("e");
         a.setAltCorreta("a");
         a.setPergunta(p);
-        facade.salvarPergunta(p, a);
+        facade.salvarPergunta(p);
     }
 
     /**
@@ -71,13 +68,9 @@ public class PerguntaDaoTest {
     @Ignore
     public void testBuscarPergunta_String() throws Exception {
         System.out.println("buscarPergunta");
-        String nome = "";
-        PerguntaDao instance = new PerguntaDao();
-        Pergunta expResult = null;
-        Pergunta result = instance.buscarPergunta(nome);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String questao = "o que e o que eh? teste";
+        Pergunta result = facade.buscarPergunta(questao);
+        assertEquals(questao, result.getQuestao());
     }
 
     /**
@@ -86,27 +79,9 @@ public class PerguntaDaoTest {
     @Ignore
     public void testBuscarPergunta_long() throws Exception {
         System.out.println("buscarPergunta");
-        long id = 0L;
-        PerguntaDao instance = new PerguntaDao();
-        Pergunta expResult = null;
-        Pergunta result = instance.buscarPergunta(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of listarPergunta method, of class PerguntaDao.
-     */
-    @Ignore
-    public void testListarPergunta() throws Exception {
-        System.out.println("listarPergunta");
-        PerguntaDao instance = new PerguntaDao();
-        List<Pergunta> expResult = null;
-        List<Pergunta> result = instance.listarPergunta();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        long id = 3;
+        Pergunta result = facade.buscarPergunta(id);
+        assertEquals(id, result.getId());
     }
 
     /**
@@ -115,11 +90,10 @@ public class PerguntaDaoTest {
     @Ignore
     public void testRemoverPergunta() throws Exception {
         System.out.println("removerPergunta");
-        Pergunta p = null;
-        PerguntaDao instance = new PerguntaDao();
+        DaoPergunta instance = new DaoPergunta();
+        p = instance.buscarPergunta(3);
         instance.removerPergunta(p);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -129,7 +103,7 @@ public class PerguntaDaoTest {
     public void testEditarPergunta() throws Exception {
         System.out.println("editarPergunta");
         Pergunta p = null;
-        PerguntaDao instance = new PerguntaDao();
+        DaoPergunta instance = new DaoPergunta();
         instance.editarPergunta(p);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -21,8 +21,6 @@ public class PropertiesUtils {
     //MSG USER
     public static final String MSG_ERRO_ADD_USER = "msg.error.add_user";
     public static final String MSG_ERRO_SEARCH_USER = "msg.error.search_user";
-    public static final String MSG_ERRO_UPDATE_USER = "msg.error.update_user";
-    public static final String MSG_ERRO_DELETE_USER = "msg.error.delete_user";
     public static final String MSG_ERRO_LIST_USER = "msg.error.list_user";
     public static final String MSG_SUCCEED_ADD_USER = "msg.succeed.add_user";
     public static final String MSG_SUCCEED_SEARCH_USER = "msg.succeed.search_user";
@@ -32,8 +30,6 @@ public class PropertiesUtils {
     //MSG QUESTION
     public static final String MSG_ERRO_ADD_QUESTION = "msg.error.add_question";
     public static final String MSG_ERRO_SEARCH_QUESTION = "msg.error.search_question";
-    public static final String MSG_ERRO_UPDATE_QUESTION = "msg.error.update_question";
-    public static final String MSG_ERRO_DELETE_QUESTION = "msg.error.delete_question";
     public static final String MSG_ERRO_LIST_QUESTION = "msg.error.list_question";
     public static final String MSG_SUCCEED_ADD_QUESTION = "msg.succeed.add_question";
     public static final String MSG_SUCCEED_SEARCH_QUESTION = "msg.succeed.search_question";
@@ -44,8 +40,6 @@ public class PropertiesUtils {
     public static final String MSG_ERRO_ADD_AREA = "msg.error.add_area";
     public static final String MSG_ERRO_ADD_AREA_DUPLICATE = "msg.error.add_area_duplicate";
     public static final String MSG_ERRO_SEARCH_AREA = "msg.error.search_area";
-    public static final String MSG_ERRO_UPDATE_AREA = "msg.error.update_area";
-    public static final String MSG_ERRO_DELETE_AREA = "msg.error.delete_area";
     public static final String MSG_ERRO_LIST_AREA = "msg.error.list_area";
     public static final String MSG_SUCCEED_ADD_AREA = "msg.succeed.add_area";
     public static final String MSG_SUCCEED_SEARCH_AREA = "msg.succeed.search_area";
@@ -55,8 +49,6 @@ public class PropertiesUtils {
     //MSG ALTERNATIVE
     public static final String MSG_ERRO_ADD_ALTERNATIVE = "msg.error.add_alternative";
     public static final String MSG_ERRO_SEARCH_ALTERNATIVE = "msg.error.search_alternative";
-    public static final String MSG_ERRO_UPDATE_ALTERNATIVE = "msg.error.update_alternative";
-    public static final String MSG_ERRO_DELETE_ALTERNATIVE = "msg.error.delete_alternative";
     public static final String MSG_ERRO_LIST_ALTERNATIVE = "msg.error.list_alternative";
     public static final String MSG_SUCCEED_ADD_ALTERNATIVE = "msg.succeed.add_alternative";
     public static final String MSG_SUCCEED_SEARCH_ALTERNATIVE = "msg.succeed.search_alternative";
@@ -66,7 +58,10 @@ public class PropertiesUtils {
     //MSG HISTORICO
     public static final String MSG_ERRO_ADD_HISTORICO = "msg.error.add_historico";
     public static final String MSG_ERRO_SEARCH_HISTORICO = "msg.error.search_historico";
-    public static final String MSG_ERRO_UPDATE_HISTORICO = "msg.error.update_historico";
+    
+    //MSG GENERICAS
+    public static final String MSG_ERRO_UPDATE = "msg.error.update";
+    public static final String MSG_ERRO_DELETE = "msg.error.delete";
 
     /*
     *

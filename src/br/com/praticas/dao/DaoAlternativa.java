@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author Felipe
  */
-public class AlternativaDao extends DaoGeneric implements AlternativaInterface {
+public class DaoAlternativa extends DaoGeneric implements AlternativaInterface {
 
     @Override
     public long salvarAlternativa(Alternativa a) throws Exception {
@@ -49,7 +49,7 @@ public class AlternativaDao extends DaoGeneric implements AlternativaInterface {
         } catch (SQLException ex) {
             ex.printStackTrace();
             resultado = -1;
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_ALTERNATIVE));
         }
         return resultado;
@@ -72,7 +72,7 @@ public class AlternativaDao extends DaoGeneric implements AlternativaInterface {
                 alternativa.setAlt4(rs.getString("alt4"));
                 alternativa.setAlt5(rs.getString("alt5"));
                 alternativa.setAltCorreta(rs.getString("altcorreta"));
-                Pergunta p = new PerguntaDao().buscarPergunta(rs.getInt("id_pergunta"));
+                Pergunta p = new DaoPergunta().buscarPergunta(rs.getInt("id_pergunta"));
                 alternativa.setPergunta(p);
                 alternativas.add(alternativa);
             }

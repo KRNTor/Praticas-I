@@ -15,11 +15,11 @@ import java.util.logging.*;
  *
  * @author Sidney
  */
-public class HistoricoJogadorDao extends DaoGeneric implements InterfaceHistoricoJogador {
+public class DaoHistorico extends DaoGeneric implements InterfaceHistoricoJogador {
 
     @Override
     public void salvarHistoricoJogador(HistoricoJogador h, Pergunta p, Usuario u) throws Exception {
-        String sql = "insert into historicoJogador (qntcertas, qntrespondidas, id_usuario, id_pergunta) values(?, ?, ?, ?);";
+        String sql = "insert into historicoJogador (qntcertas, qntrespondidas, id_usuario, id_pergunta) values(?, ?, ?, ?)";
 
         try {
             PreparedStatement pst = this.getConexao().prepareStatement(sql);
@@ -72,8 +72,8 @@ public class HistoricoJogadorDao extends DaoGeneric implements InterfaceHistoric
             pst.setInt(2, h.getPerguntasRespondidas() + 1);
             //MUITO INCOMPLETO
         } catch (SQLException e) {
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_HISTORICO));
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, e);
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE));
         }
     }
 
@@ -86,8 +86,8 @@ public class HistoricoJogadorDao extends DaoGeneric implements InterfaceHistoric
             pst.setInt(1, h.getPerguntasRespondidas() + 1);
             //MUITO INCOMPLETO
         } catch (SQLException e) {
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_HISTORICO));
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, e);
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE));
         }
 
     }
@@ -104,7 +104,7 @@ public class HistoricoJogadorDao extends DaoGeneric implements InterfaceHistoric
             this.getConexao().commit();
             this.fecharConexao();
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoPergunta.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_ADD_QUESTION));
         }
         return p.getId();

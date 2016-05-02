@@ -23,7 +23,7 @@ import org.postgresql.util.PSQLException;
  *
  * @author Felipe
  */
-public class AreaDao extends DaoGeneric implements AreaInterface {
+public class DaoArea extends DaoGeneric implements AreaInterface {
 
     @Override
     public void salvarArea(Area a) throws Exception {
@@ -89,6 +89,30 @@ public class AreaDao extends DaoGeneric implements AreaInterface {
     }
 
     @Override
+    public Area buscarArea(long id) throws Exception {
+        Area a = null;
+        String sql = "select * from area";
+        try {
+            PreparedStatement pst = getConexao().prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                if (Integer.valueOf(rs.getString("id")) == id) {
+                    a = new Area();
+                    a.setId(rs.getInt("id"));
+                    a.setAreaNome(rs.getString("nome"));
+                    this.fecharConexao();
+                    return a;
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
+                    null, e);
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_SEARCH_AREA));
+        }
+        return null;
+    }
+
+    @Override
     public List<Area> listarArea() throws Exception {
         List<Area> areas = new ArrayList<>();
         String sql = "select * from area";
@@ -121,7 +145,7 @@ public class AreaDao extends DaoGeneric implements AreaInterface {
             this.fecharConexao();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE_AREA));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_DELETE));
         }
     }
 
@@ -138,7 +162,7 @@ public class AreaDao extends DaoGeneric implements AreaInterface {
         } catch (SQLException e) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, e);
-            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE_AREA));
+            throw new Exception(PropertiesUtils.getMsgValue(PropertiesUtils.MSG_ERRO_UPDATE));
         }
     }
 
